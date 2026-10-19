@@ -1,5 +1,5 @@
-from ai_anime_recomender.data_loader import AnimeDataLoader
-from ai_anime_recomender.vectore_store import VectoreStoreBuilder
+from src.data_loader import AnimeDataLoader
+from src.vectore_store import VectoreStoreBuilder
 from utils.logger import get_logger
 from utils.custom_exception import CustomeException
 
@@ -17,8 +17,8 @@ def main():
 
         logger.info("Data  loaded and processed...")
 
-        vectoer_builder = AnimeDataLoader(processed_csv)
-        vectoer_builder.load_and_process()
+        vectoer_builder = VectoreStoreBuilder(processed_csv)
+        vectoer_builder.build_and_save_vectorstore()
 
         logger.info("Vector store Built sucesfully....")
         logger.info("Pipeline built sucessfully....")

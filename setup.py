@@ -7,6 +7,6 @@ setup(
     name = "ANIME_RECOMMENDER",
     version = "0.2",
     author = "Salauddin",
-    packages = find_packages,
+    packages = find_packages(),
     install_requires = requirements
 )

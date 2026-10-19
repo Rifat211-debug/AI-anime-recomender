@@ -8,5 +8,34 @@ wheels/
 
 # Virtual environments
 .venv
-animenv
+
+
+animeenv
 .env
+
+venv/
+logs/
+ANIME_RECOMMENDER.egg-info/
+.env
+
+anienv
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.Python
+.env
+.env/
+venv/
+
+*.log
+logs/
+
+.vscode/
+*.egg-info
+
+dd
+
+experiments
