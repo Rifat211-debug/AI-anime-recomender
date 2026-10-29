@@ -1,3 +1,12 @@
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+import uuid
 import streamlit as st
 from pipeline.pipeline import AnimeRecommendationPipeline
 from dotenv import load_dotenv
@@ -72,6 +81,9 @@ def init_pipeline():
 
 pipeline = init_pipeline()
 
+if "user_id" not in st.session_state:
+    st.session_state.user_id = str(uuid.uuid4())
+
 # Initialize Chat History
 if "messages" not in st.session_state:
     st.session_state.messages = [
@@ -122,7 +134,7 @@ if prompt := st.chat_input("What are you in the mood for?"):
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             try:
-                response = pipeline.recommend(prompt)
+                response = pipeline.recommend(query = prompt, user_id = st.session_state.user_id)
                 st.markdown(response)
             except Exception as e:
                 error_msg = f"Sorry, I encountered an error: {str(e)}"

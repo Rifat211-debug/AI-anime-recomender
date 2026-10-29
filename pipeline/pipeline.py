@@ -13,7 +13,7 @@ class AnimeRecommendationPipeline:
             vector_builder = VectoreStoreBuilder(
                 csv_path = "", persist_dir = persist_dir
             )
-            retriever = vector_builder.load_vector_store().as_retriever()
+            retriever = (vector_builder.load_vector_store().as_retriever())
             self.recommender = AnimeRecommender(
                 retriever = retriever,
                 model_name = model_name
@@ -27,10 +27,15 @@ class AnimeRecommendationPipeline:
                 "Error during pipeline initialization", e
             ) 
 
-    def recommend(self, query: str) -> str:
+    def recommend(self, query: str, user_id: str) -> str:
          try:
+            if not user_id or not user_id.strip():
+                raise ValueError(
+                    "A valid authenticated user_id is required."
+                            )
             logger.info(f"Received Query: {query}")
-            return self.recommender.get_recommendation(query)
+            return self.recommender.get_recommendation(query = query, user_id = user_id)
+         
          except Exception as e:
             logger.error(f"Failed Recommedation: {str(e)}")
             raise CustomeException(
