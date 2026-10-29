@@ -13,7 +13,7 @@
 
 **Discover your next favorite anime with an AI assistant that understands your interests, remembers your preferences, searches the web, and adapts recommendations to your context.**
 
-[🚀 Live Demo](YOUR_DEPLOYED_APP_URL) · [💻 Source Code](https://github.com/Rifat211-debug/AI-anime-recommender) · [🐛 Report an Issue](https://github.com/Rifat211-debug/AI-anime-recommender/issues)
+[🚀 Live Demo](https://ai-anime-recomender-2211.streamlit.app/) · [💻 Source Code](https://github.com/Rifat211-debug/AI-anime-recomender) · [🐛 Report an Issue](https://github.com/Rifat211-debug/AI-anime-recommender/issues)
 
 </div>
 
@@ -21,17 +21,15 @@
 
 ## 📸 Application Preview
 
-<!-- Replace this path with a screenshot of the actual running Streamlit application. -->
 <div align="center">
 
-![AniBaba Frontend Preview](images/anibaba-home.png)
+![AniBaba Frontend Preview](images/ui.png)
 
 *AniBaba's conversational interface for discovering anime.*
 
 </div>
 
-> **Live application:** [Try AniBaba here](YOUR_DEPLOYED_APP_URL)  
-> Replace `YOUR_DEPLOYED_APP_URL` with your deployed Streamlit application URL. Add `images/anibaba-home.png` to your repository to display a screenshot.
+> **Live application:** [Try AniBaba here](https://ai-anime-recomender-2211.streamlit.app/)  
 
 ## ✨ Project Overview
 
@@ -56,47 +54,43 @@ Rather than relying exclusively on the LLM's internal knowledge, the system can 
 - **🎨 Interactive Streamlit Interface:** Deliver a conversational experience through a custom-themed frontend.
 - **🛠️ Modular Architecture:** Separate the UI, recommendation logic, retrieval pipeline, external tools, memory management, and utilities for maintainability.
 
+
 ## 🏗️ System Architecture
 
-AniBaba follows a modular, retrieval-augmented architecture. The Streamlit frontend sends the user's query to the recommendation pipeline, which combines relevant user memories, a tool-enabled LLM, and specialized retrieval or external API tools.
+AniBaba uses a modular architecture that combines an LLM, user memory, anime data retrieval, and external tools to generate personalized responses.
 
 ```mermaid
 flowchart TD
-    U["👤 User"] --> UI["🌸 Streamlit Frontend"]
+    U["👤 User"] --> UI["🌸 Streamlit UI"]
     UI --> P["Recommendation Pipeline"]
-    P --> R["AnimeRecommender"]
-    R --> M["Mem0 Memory Manager"]
-    M --> LLM["Groq-hosted LLM"]
+    P --> LLM["Groq LLM"]
 
-    LLM --> D{"Select appropriate tool"}
+    M["Mem0 Memory"] <--> LLM
 
-    D -->|Anime knowledge| V["ChromaDB Vector Store"]
-    D -->|Recent anime news| T["Tavily Web Search"]
-    D -->|Weather query| W["OpenWeatherMap API"]
+    LLM --> D{"Select Data Source"}
 
-    CSV["Anime CSV Dataset"] -. "Data preparation and indexing" .-> V
-    EMB["Hugging Face Embeddings"] -. "Vector representations" .-> V
+    D --> V["ChromaDB Anime Dataset"]
+    D --> T["Tavily Web Search"]
+    D --> W["OpenWeatherMap API"]
 
-    V --> TR["Retrieved Anime Context"]
-    T --> WR["Web Search Results and URLs"]
-    W --> WC["Current Weather Data"]
+    CSV["Anime CSV Dataset"] --> V
+    E["Hugging Face Embeddings"] --> V
 
-    TR --> LLM
-    WR --> LLM
-    WC --> LLM
+    V --> LLM
+    T --> LLM
+    W --> LLM
 
-    LLM --> A["Context-Aware Response"]
+    LLM --> A["Personalized Response"]
     A --> UI
-    UI --> U
-
-    LLM -. "Save conversation" .-> M
 
     style U fill:#FCE7F3,stroke:#DB2777,color:#831843
     style UI fill:#E0F2FE,stroke:#0284C7,color:#0C4A6E
     style LLM fill:#F3E8FF,stroke:#9333EA,color:#581C87
-    style V fill:#DCFCE7,stroke:#16A34A,color:#14532D
     style M fill:#FEF3C7,stroke:#D97706,color:#78350F
+    style V fill:#DCFCE7,stroke:#16A34A,color:#14532D
 ```
+
+
 
 ### 🔄 Request Lifecycle
 
@@ -212,7 +206,7 @@ AI-Anime-Recomender/
 ├── images/
 │   ├── bg.png
 │   ├── Twilight Rivals Beneath Falling Blossoms.png
-│   └── anibaba-home.png       # Add your application screenshot
+│   └── ui.png                  # Add your application screenshot
 │
 ├── memory/
 │   ├── mem0_manager.py         # Mem0 integration
@@ -264,11 +258,9 @@ Follow these steps to run AniBaba locally.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Rifat211-debug/AI-anime-recommender.git
-cd AI-Anime-Recomender
+git clone https://github.com/Rifat211-debug/AI-anime-recomender.git
+cd AI-anime-recomender
 ```
-
-If your repository URL or directory capitalization differs, use the exact URL and directory name shown on GitHub.
 
 ### 2. Create and Activate a Virtual Environment
 
@@ -276,7 +268,7 @@ If your repository URL or directory capitalization differs, use the exact URL an
 
 ```powershell
 python -m venv animenv
-.\animenv\Scripts\Activate.ps1
+animenv\Scripts\activate
 ```
 
 **macOS / Linux**
@@ -304,6 +296,7 @@ GROQ_API_KEY=your_groq_api_key
 TAVILY_API_KEY=your_tavily_api_key
 OPENWEATHER_API_KEY=your_openweathermap_api_key
 MEM0_API_KEY=your_mem0_api_key
+HF_TOKEN=your_huggingface_api_key
 ```
 
 Replace the example values with your own credentials.
@@ -346,29 +339,6 @@ http://localhost:8501
 
 Open the URL in your browser and start exploring anime recommendations.
 
-## 📸 Screenshots
-
-Add actual screenshots of the running application to the `images/` directory.
-
-### Main Interface
-
-![AniBaba Main Interface](images/anibaba-home.png)
-
-*Suggested screenshot: the landing page showing the AniBaba branding and chat interface.*
-
-### Conversational Recommendations
-
-![Anime Recommendation Conversation](images/anibaba-recommendations.png)
-
-*Suggested screenshot: a real conversation showing an anime recommendation and its explanation.*
-
-### Live Search Results
-
-![Anime Search Results](images/anibaba-web-search.png)
-
-*Suggested screenshot: a query about current anime releases, with returned source URLs.*
-
-> The additional screenshot files above are suggested filenames. Add the corresponding images before publishing this section, or remove any image references you do not use.
 
 ## ⚙️ Configuration and Customization
 
@@ -435,17 +405,14 @@ Potential next steps for the project include:
 ## 👨‍💻 Author
 
 **Md Salauddin Al Rifat**  
-AI / Machine Learning Engineer — Aspiring
 
 - GitHub: [@Rifat211-debug](https://github.com/Rifat211-debug)
-- Project Repository: [AI-Anime-Recomender](https://github.com/Rifat211-debug/AI-anime-recommender)
-- Live Application: [AniBaba Demo](YOUR_DEPLOYED_APP_URL)
 
 I'm interested in building practical AI systems that combine machine learning, LLM applications, retrieval-augmented generation, and production-oriented engineering.
 
 ## 📄 License
 
-This project includes a `LICENSE` file in the repository. Refer to that file for the applicable terms of use.
+This project includes a `MIT LICENSE` file in the repository. Refer to that file for the applicable terms of use.
 
 ---
 
