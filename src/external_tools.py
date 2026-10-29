@@ -4,7 +4,7 @@ from datetime import date
 
 import requests
 from dotenv import load_dotenv
-from langchain.tools import tool
+from langchain_core.tools import tool
 from langchain_tavily import TavilySearch
 from pathlib import Path
 
